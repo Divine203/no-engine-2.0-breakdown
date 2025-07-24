@@ -16,9 +16,9 @@
 
     <canvas id="c" width="1200" height="700"></canvas>
     
-    <!-- webgl2 is based on es version 3. So it must be specified -->
+    <!-- shaders will be written in a script tag -->
     <script id="vertexShader" type="x-shader/x-vertex">
-        #version 300 es
+        #version 300 es // webgl2 is based on es version 3. So it must be specified
         in vec3 position;
         in vec4 color;
         out vec4 fcolor;
@@ -39,6 +39,6 @@
         }
     </script>
 
-    <script src="hello-triangle.js"></script>
+    <script src="hello-cube.js"></script>
 </body>
 </html>

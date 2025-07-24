@@ -11,27 +11,32 @@
             background: #3c3c3c;
         }
     </style>
+    <script src="./libs/gl-matrix.min.js"></script>
 </head>
 <body>
 
     <canvas id="c" width="1200" height="700"></canvas>
     
-    <!-- webgl2 is based on es version 3. So it must be specified -->
+    <!-- shaders will be written in a script tag -->
     <script id="vertexShader" type="x-shader/x-vertex">
-        #version 300 es
+        #version 300 es 
         in vec3 position;
         in vec4 color;
         out vec4 fcolor;
 
+        uniform mat4 modelMatrix;
+        uniform mat4 viewMatrix;
+        uniform mat4 projectionMatrix;
+
         void main() {
-            gl_Position = vec4(position, 1); //send it as a vec4, spread position {x, y, z}, concatinate 1 to make it 4;
-            fcolor = color; // make sure the color that is sent out is the same as the one we get (can be changed)
+            gl_Position = projectionMatrix * viewMatrix * modelMatrix * vec4(position, 1);
+            fcolor = color;
         }
     </script>
     <script id="fragmentShader" type="x-shader/x-vertex">
         #version 300 es
-        precision mediump float; // tell the GPU to use a specific level of precision
-        in vec4 fcolor; // use same name as the color sent out by the vertex shader to avoid LINKING problems
+        precision mediump float;
+        in vec4 fcolor;
         out vec4 finalColor;
 
         void main() {
