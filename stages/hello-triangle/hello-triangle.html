@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Web GL</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            background: #3c3c3c;
+        }
+    </style>
+</head>
+<body>
+
+    <canvas id="c" width="1200" height="700"></canvas>
+    
+    <!-- webgl2 is based on es version 3. So it must be specified -->
+    <script id="vertexShader" type="x-shader/x-vertex">
+        #version 300 es
+        in vec3 position;
+        in vec4 color;
+        out vec4 fcolor;
+
+        void main() {
+            gl_Position = vec4(position, 1); //send it as a vec4, spread position {x, y, z}, concatinate 1 to make it 4;
+            fcolor = color; // make sure the color that is sent out is the same as the one we get (can be changed)
+        }
+    </script>
+    <script id="fragmentShader" type="x-shader/x-vertex">
+        #version 300 es
+        precision mediump float; // tell the GPU to use a specific level of precision
+        in vec4 fcolor; // use same name as the color sent out by the vertex shader to avoid LINKING problems
+        out vec4 finalColor;
+
+        void main() {
+            finalColor = fcolor;
+        }
+    </script>
+
+    <script src="main.js"></script>
+</body>
+</html>
