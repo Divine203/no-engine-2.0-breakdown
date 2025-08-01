@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Web GL</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            background: #3c3c3c;
+        }
+    </style>
+    <script src="./libs/gl-matrix.min.js"></script>
+</head>
+<body>
+
+    <canvas id="c" width="1200" height="700"></canvas>
+    
+    <!-- shaders will be written in a script tag -->
+    <script id="vertexShader" type="x-shader/x-vertex">
+        #version 300 es 
+        in vec3 position;
+        in vec4 color;
+        out vec4 fcolor;
+
+        uniform vec4 colorsUniformArray[3];
+
+        /*
+        uniform vec4 colorsUniformArray[0]
+        uniform vec4 colorsUniformArray[1]
+        uniform vec4 colorsUniformArray[2]
+        */
+
+        uniform vec3 offsets;
+
+        uniform mat4 modelMatrix;
+        uniform mat4 viewMatrix;
+        uniform mat4 projectionMatrix;
+
+        void main() {
+            gl_Position = projectionMatrix * viewMatrix * modelMatrix * vec4(position.x + offsets[gl_InstanceID],position.yz, 1);
+            fcolor = colorsUniformArray[gl_InstanceID];
+        }
+    </script>
+    <script id="fragmentShader" type="x-shader/x-vertex">
+        #version 300 es
+        precision mediump float;
+        in vec4 fcolor;
+        out vec4 finalColor;
+
+        void main() {
+            finalColor = fcolor;
+        }
+    </script>
+
+    <script src="main.js"></script>
+</body>
+</html>
