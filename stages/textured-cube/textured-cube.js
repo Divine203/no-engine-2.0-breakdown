@@ -142,6 +142,8 @@ const createCube = () => {
         gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, gl.NEAREST);
         gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.NEAREST);
 
+        gl.useProgram(cube.shaderProgram); // re use the program
+
         gl.activeTexture(gl.TEXTURE0); // you have at least 8 textures possible
         gl.bindTexture(gl.TEXTURE_2D, cube.texture1);
         gl.uniform1i(cube.samplerUniformLocation, 0);
