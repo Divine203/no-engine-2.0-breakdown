@@ -226,7 +226,7 @@ const cube = createCube();
 const viewMatrix = mat4.create();
 const projectionMatrix = mat4.create();
 
-mat4.perspective(projectionMatrix, 45 * Math.PI / 180.0, canvas.width / canvas.height, 0.1, 100); // 45deg to radians, 100 is far plane
+mat4.perspective(projectionMatrix, 45 * Math.PI / 180.0, canvas.width / canvas.height, 0.1, 10); // 45deg to radians
 
 // link to them to the locations in the shaders.
 
@@ -237,38 +237,7 @@ gl.uniformMatrix4fv(projectionMatrixLocation, false, projectionMatrix);
 
 let angle = 0;
 
-const camera = { position: vec3.fromValues(0,0,0), target: vec3.fromValues(0,0,0) }; // position: [x, y, z]
-vec3.add(camera.target, camera.position, vec3.fromValues(0, 0, -1));
-
 // Do actual drawing
-
-let isWPressed = false;
-let isAPressed = false;
-let isSPressed = false;
-let isDPressed = false;
-
-let camVel = 0.05;
-
-document.addEventListener("keydown", (e) => {
-    isWPressed = (e.key == 'w');
-    isAPressed = (e.key == 'a');
-    isSPressed = (e.key == 's');
-    isDPressed = (e.key == 'd');
-});
-
-document.addEventListener("keyup", (e) => {
-    if (e.key == 'w') isWPressed = false;
-    if (e.key == 'a') isAPressed = false;
-    if (e.key == 's') isSPressed = false;
-    if (e.key == 'd') isDPressed = false;
-});
-
-const moveCamera = () => {
-    if(isWPressed) camera.position[2] -= camVel;
-    if(isSPressed) camera.position[2] += camVel;
-    if(isAPressed) camera.position[0] -= camVel;
-    if(isDPressed) camera.position[0] += camVel;
-}
 
 const runRenderLoop = () => {
     gl.clearColor(0, 0, 0, 1);
@@ -277,11 +246,7 @@ const runRenderLoop = () => {
     gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
     gl.enable(gl.DEPTH_TEST);
 
-    // create view matrix
-
-    moveCamera();
-    vec3.add(camera.target, camera.position, vec3.fromValues(0, 0, -1)); // recompute the target
-    mat4.lookAt(viewMatrix, camera.position, camera.target, vec3.fromValues(0, 1, 0));
+    angle += 0.05;
 
     // cube 1
     mat4.identity(cube.modelMatrix);
